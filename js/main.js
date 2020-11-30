@@ -28,6 +28,7 @@ let appData = {
   budgetDay: 0,
   expensesMonth: 0,
   missionComplete: 0,
+  budget: money,
   asking: function() {
     let addExpenses = prompt('Перечислите возможные расходы за рассчитываемый период через запятую');
         appData.addExpenses = addExpenses.toLowerCase().split(',');
@@ -53,7 +54,7 @@ let appData = {
     return appData.expensesMonth;
   },
   getBudget: function() {
-    appData.budgetMonth = money - appData.expensesMonth;
+    appData.budgetMonth = appData.budget - appData.expensesMonth;
     appData.budgetDay = Math.floor(appData.budgetMonth / 30);
   },
   getTargetMonth: function() {
