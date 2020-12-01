@@ -56,12 +56,11 @@ let appData = {
 
     let expensesMonth = 0;
     let question;
-    let addExpenses;
     do {
-      addExpenses = prompt('Перечислите возможные расходы за рассчитываемый период через запятую');
+      appData.addExpenses = prompt('Перечислите возможные расходы за рассчитываемый период через запятую');
     }
-    while (!isStringNumber(addExpenses));
-      appData.addExpenses = addExpenses.split(' ').map(string => string.charAt(0).toUpperCase() + 
+    while (!isStringNumber(appData.addExpenses));
+      appData.addExpenses = appData.addExpenses.split(' ').map(string => string.charAt(0).toUpperCase() + 
       string.slice(1)).join(', ');
     console.log(appData.addExpenses);
     appData.deposit = confirm('Есть ли у вас депозит в банке?');
