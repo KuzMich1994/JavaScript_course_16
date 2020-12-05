@@ -79,9 +79,25 @@ let appData = {
   },
   addExpensesBlock: function() {
     let cloneExpensesItem = expensesItems[0].cloneNode(true);
-    let cloneInputs = cloneExpensesItem.querySelectorAll('input');
-    cloneInputs.forEach(function(input) {
+    let cloneInputsText = cloneExpensesItem.querySelectorAll('.expenses-title');
+    cloneInputsText.forEach(function(input) {
+      input.addEventListener('input', function(event) {
+        let regExpText = /^[А-Яа-яЁё\s\,]+/;
+        let currentInputValue = event.currentTarget.value;
+        let checkStr = currentInputValue.match(regExpText);
+        input.value = (checkStr && input.classList.contains('expenses-title')) ? checkStr : '';
+      });
       input.value = '';
+    });
+    let cloneInputsNum = cloneExpensesItem.querySelectorAll('.expenses-amount');
+    cloneInputsNum.forEach(function(inputNum) {
+      inputNum.addEventListener('input', function(event) {
+        let regExpNum = /^[0-9]+/;
+        let currentInputValue = event.currentTarget.value;
+        let checkNum = currentInputValue.match(regExpNum);
+        inputNum.value = (checkNum && inputNum.classList.contains('expenses-amount')) ? checkNum : '';
+      });
+      inputNum.value = '';
     });
     expensesItems[0].parentNode.insertBefore(cloneExpensesItem, addExpenses);
     expensesItems = document.querySelectorAll('.expenses-items');
@@ -101,9 +117,25 @@ let appData = {
   },
   addIncomeBlock: function() {
     let cloneIncomeItem = incomeItems[0].cloneNode(true);
-    let cloneInputs = cloneIncomeItem.querySelectorAll('input');
-    cloneInputs.forEach(function(input) {
+    let cloneInputsText = cloneIncomeItem.querySelectorAll('.income-title');
+    cloneInputsText.forEach(function(input) {
+      input.addEventListener('input', function(event) {
+        let regExpText = /^[А-Яа-яЁё\s\,]+/;
+        let currentInputValue = event.currentTarget.value;
+        let checkStr = currentInputValue.match(regExpText);
+        input.value = (checkStr && input.classList.contains('income-title')) ? checkStr : '';
+      });
       input.value = '';
+    });
+    let cloneInputsNum = cloneIncomeItem.querySelectorAll('.income-amount');
+    cloneInputsNum.forEach(function(inputNum) {
+      inputNum.addEventListener('input', function(event) {
+        let regExpNum = /^[0-9]+/;
+        let currentInputValue = event.currentTarget.value;
+        let checkNum = currentInputValue.match(regExpNum);
+        inputNum.value = (checkNum && inputNum.classList.contains('income-amount')) ? checkNum : '';
+      });
+      inputNum.value = '';
     });
     incomeItems[0].parentNode.after(cloneIncomeItem, addIncome);
     incomeItems = document.querySelectorAll('.income-items');
@@ -205,18 +237,17 @@ addIncome.addEventListener('click', appData.addIncomeBlock);
 periodSelect.addEventListener('change', function() {
   periodAmount.textContent = periodSelect.value;
 });
-inputText.forEach((input) => input.addEventListener('input', function() {
-  let regExp = /^[А-Яа-яЁё\s\,]+$/g.test(input.value);
-  console.log(regExp);
-  if (regExp !== true) {
-    input.value = '';
-  } 
+inputText.forEach((input) => input.addEventListener('input', function(event) {
+  let regExp = /^[А-Яа-яЁё\s\,]+/;
+  let currentInputValue = event.currentTarget.value;
+  let checkStr = currentInputValue.match(regExp);
+  input.value = checkStr ? checkStr : '';
 }));
-inputNumbers.forEach((input) => input.addEventListener('input', function() {
-  let regExp = /^[0-9]+$/g.test(input.value);
-  if (regExp !== true) {
-    input.value = '';
-  }
+inputNumbers.forEach((input) => input.addEventListener('input', function(event) {
+  let regExp = /^[0-9]+/;
+  let currentInputValue = event.currentTarget.value;
+  let checkStr = currentInputValue.match(regExp);
+  input.value = checkStr ? checkStr : '';
 }));
 
 
