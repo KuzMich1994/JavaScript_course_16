@@ -220,17 +220,23 @@ let appData = {
 startButton.setAttribute('disabled', '');
 salaryAmount.addEventListener('input', () => startButton.disabled = salaryAmount.value.trim() === '');
 startButton.addEventListener('click', appData.start);
-// startButton.addEventListener('click', function(){
-//   expensesItems.forEach(function(item) {
-//     let itemExpenses = item.querySelector('.expenses-title').value = '';
-//     let cashExpenses = item.querySelector('.expenses-amount').value = '';
-//     return item;
-//   });
-//   for (let i = 0; i < additionalIncomeItem.length; i++) {
-//     additionalIncomeItem[i].value = '';
-//   }
-//   targetAmount.value = '';
-// });
+startButton.addEventListener('click', function(){
+  expensesItems.forEach(function(item) {
+    let itemExpenses = item.querySelector('.expenses-title').value = '';
+    let cashExpenses = item.querySelector('.expenses-amount').value = '';
+    return item;
+  });
+  incomeItems.forEach(function(item) {
+    let itemIncome = item.querySelector('.income-title').value = '';
+    let cashIncome = item.querySelector('.income-amount').value = '';
+    return item;
+  });
+  for (let i = 0; i < additionalIncomeItem.length; i++) {
+    additionalIncomeItem[i].value = '';
+  }
+  additionalExpensesItem.value = '';
+  targetAmount.value = '';
+});
 
 addExpenses.addEventListener('click', appData.addExpensesBlock);
 addIncome.addEventListener('click', appData.addIncomeBlock);
