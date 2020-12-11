@@ -76,6 +76,12 @@ class AppData {
     incomePeriodValue.value = '';
     periodSelect.value = 1;
     periodAmount.textContent = periodSelect.value;
+    depositPercent.value = '';
+    depositAmount.value = '';
+    depositBank.value = '';
+    depositCheck.checked = false;
+    depositBank.style.display = 'none';
+    depositAmount.style.display = 'none';
     this.clearInputs();
     for (let i = 1; i < incomeItems.length; i++) {
       if (incomeItems[i] !== 0) {
@@ -142,9 +148,6 @@ class AppData {
     let disabled = item.setAttribute('disabled', '');
     return disabled;
   });
-    console.log(this.deposit);
-    console.log(this.moneyDeposit);
-    console.log(this.percentDeposit);
   }
 
   showResult() {
@@ -294,24 +297,22 @@ class AppData {
   calcSavedMoney() {
     return this.budgetMonth * periodSelect.value;
   }
-  
+
   getInfoDeposit() {
     if (this.deposit) {
-      this.persentDeposit = depositPercent.value;
+      this.percentDeposit = depositPercent.value;
       this.moneyDeposit = depositAmount.value;
-      console.log(this.percentDeposit);
     }
   }
 
   changePercent() {
     const valueSelect = this.value;
     if (valueSelect === 'other') {
-      // depositPercent.style.display = 'inline-block';
-      // depositPercent.value = '';
+      depositPercent.style.display = 'inline-block';
+      depositPercent.value = '';
     } else {
-      // depositPercent.style.display = 'none';
+      depositPercent.style.display = 'none';
       depositPercent.value = valueSelect;
-      console.log(valueSelect);
     }
   }
 
@@ -359,6 +360,16 @@ class AppData {
       input.value = checkStr ? checkStr : '';
     }));
     depositCheck.addEventListener('change', this.depositHandler.bind(this));
+    depositPercent.addEventListener('input', function(event) {
+      let regExp = /^[0-9]+/;
+      let currentInputValue = event.currentTarget.value;
+      let checkStr = currentInputValue.match(regExp);
+      depositPercent.value = checkStr ? checkStr : '';
+      if (depositPercent.value > 100) {
+        depositPercent.value = 'Не может быть больше 100!';
+        // alert('Процент не может быть больше 100!');
+      }
+    });
   }
 }
 
