@@ -313,6 +313,12 @@ class AppData {
     } else {
       depositPercent.style.display = 'none';
       depositPercent.value = valueSelect;
+      if (valueSelect !== 'other') {
+        startButton.disabled = true;
+        depositAmount.addEventListener('input', function() {
+          startButton.disabled = false;
+        });
+      }
     }
   }
 
@@ -321,6 +327,7 @@ class AppData {
       depositBank.style.display = 'inline-block';
       depositAmount.style.display = 'inline-block';
       this.deposit = true;
+      startButton.disabled = true;
       depositBank.addEventListener('change', this.changePercent);
     } else {
       depositBank.style.display = 'none';
@@ -329,6 +336,10 @@ class AppData {
       depositAmount.value = '';
       this.deposit = false;
       depositBank.removeEventListener('change', this.changePercent);
+      startButton.disabled = false;
+      if (salaryAmount.value === '') {
+        startButton.disabled = true;
+      }
     }
   }
 
