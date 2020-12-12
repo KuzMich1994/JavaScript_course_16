@@ -367,6 +367,9 @@ class AppData {
       depositPercent.value = checkStr ? checkStr : '';
       if (depositPercent.value > 100) {
         depositPercent.value = 'Не может быть больше 100!';
+        startButton.disabled = true;
+      } else {
+        startButton.disabled = false;
       }
     });
   }
