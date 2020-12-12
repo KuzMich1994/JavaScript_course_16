@@ -308,18 +308,26 @@ class AppData {
   changePercent() {
     const valueSelect = this.value;
     if (valueSelect === 'other') {
+      startButton.disabled = true;
       depositPercent.style.display = 'inline-block';
       depositPercent.value = '';
+      depositAmount.value = '';
     } else {
       depositPercent.style.display = 'none';
       depositPercent.value = valueSelect;
       if (valueSelect !== 'other') {
         startButton.disabled = true;
         depositAmount.addEventListener('input', function() {
-          startButton.disabled = false;
+          if (depositAmount.value === '' || depositBank.value === '' || depositPercent.value === '') {
+            startButton.disabled = true;
+          } else {
+            startButton.disabled = false;
+          }
         });
+        depositAmount.value = '';
       }
     }
+    
   }
 
   depositHandler() {
@@ -334,19 +342,34 @@ class AppData {
       depositAmount.style.display = 'none';
       depositBank.value = '';
       depositAmount.value = '';
+      depositPercent.value = '';
       this.deposit = false;
       depositBank.removeEventListener('change', this.changePercent);
+      depositPercent.style.display = 'none';
       startButton.disabled = false;
-      if (salaryAmount.value === '') {
-        startButton.disabled = true;
-      }
     }
+  }
+
+  salarayDepositCheck() {
+    if (depositCheck.checked) {
+      startButton.disabled = true;
+    } else {
+      salaryAmount.addEventListener('input', () => {
+        if (salaryAmount.value !== '') {
+          startButton.disabled = false;
+        } else {
+          startButton.disabled = true;
+        }
+      });
+    }
+
   }
 
   eventListeners() {
     const _this = this;
     startButton.setAttribute('disabled', '');
-    salaryAmount.addEventListener('input', () => startButton.disabled = salaryAmount.value.trim() === '');
+    salaryAmount.addEventListener('input', this.salarayDepositCheck.bind(this));
+    // salaryAmount.addEventListener('input', () => startButton.disabled = salaryAmount.value.trim() === '');
     startButton.addEventListener('click', function() {
       _this.start();
     });
@@ -381,6 +404,9 @@ class AppData {
         startButton.disabled = true;
       } else {
         startButton.disabled = false;
+      }
+      if (depositPercent.value === '' || depositAmount.value === '' || salaryAmount.value === '') {
+        startButton.disabled = true;
       }
     });
   }
