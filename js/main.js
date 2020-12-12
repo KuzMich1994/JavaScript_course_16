@@ -148,6 +148,7 @@ class AppData {
     let disabled = item.setAttribute('disabled', '');
     return disabled;
   });
+    depositCheck.disabled = true;
   }
 
   showResult() {
@@ -327,7 +328,7 @@ class AppData {
         depositAmount.value = '';
       }
     }
-    
+
   }
 
   depositHandler() {
@@ -357,8 +358,20 @@ class AppData {
       salaryAmount.addEventListener('input', () => {
         if (salaryAmount.value !== '') {
           startButton.disabled = false;
+          depositCheck.disabled = false;
         } else {
           startButton.disabled = true;
+          depositCheck.disabled = true;
+          depositBank.style.display = 'none';
+          depositAmount.style.display = 'none';
+          depositPercent.style.display = 'none';
+          depositBank.value = '';
+          depositAmount.value = '';
+          depositPercent.value = '';
+          depositCheck.checked = !depositCheck.checked;
+        }
+        if (depositCheck.checked) {
+          depositCheck.checked = !depositCheck.checked;
         }
       });
     }
@@ -367,6 +380,7 @@ class AppData {
 
   eventListeners() {
     const _this = this;
+    depositCheck.setAttribute('disabled', '');
     startButton.setAttribute('disabled', '');
     salaryAmount.addEventListener('input', this.salarayDepositCheck.bind(this));
     // salaryAmount.addEventListener('input', () => startButton.disabled = salaryAmount.value.trim() === '');
