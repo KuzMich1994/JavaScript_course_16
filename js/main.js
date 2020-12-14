@@ -383,7 +383,6 @@ class AppData {
     depositCheck.setAttribute('disabled', '');
     startButton.setAttribute('disabled', '');
     salaryAmount.addEventListener('input', this.salarayDepositCheck.bind(this));
-    // salaryAmount.addEventListener('input', () => startButton.disabled = salaryAmount.value.trim() === '');
     startButton.addEventListener('click', function() {
       _this.start();
     });
@@ -429,9 +428,3 @@ class AppData {
 const appData = new AppData();
 appData.eventListeners();
 
-// console.log(appData.getTargetMonth());
-//   for (let key in appData) {
-//     console.log('Наша программа включает в себя данные: ' + key);
-//   }
-// appData.getInfoDeposit();
-// console.log(appData.percentDeposit, appData.moneyDeposit, appData.calcSavedMoney());
