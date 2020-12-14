@@ -1,5 +1,4 @@
 window.addEventListener('DOMContentLoaded', () => {
-  const idInterval = setInterval(countTimer, 1, '14 december 2020 19:57:00');
   function countTimer(deadLine) {
     const timerHour = document.querySelector('#timer-hours'),
       timerMinutes = document.querySelector('#timer-minutes'),
@@ -19,33 +18,32 @@ window.addEventListener('DOMContentLoaded', () => {
         seconds
       };
     }
-
+    const updateClockInterval = setInterval(updateClock, 1);
     function updateClock() {
       const timer = getTimeRemaining();
-
-      timerHour.textContent = timer.hours;
-      timerMinutes.textContent = timer.minutes;
-      timerSeconds.textContent = timer.seconds;
-
-      if (timer.timeRemaining < 1) {
-        clearInterval(idInterval);
+      if (timer.timeRemaining >= 0) {
+        timerHour.textContent = timer.hours;
+        timerMinutes.textContent = timer.minutes;
+        timerSeconds.textContent = timer.seconds;
+        console.log('if', timer.timeRemaining);
+        if (timer.hours < 10) {
+          timerHour.textContent = '0' + timer.hours;
+        }
+        if (timer.minutes < 10) {
+          timerMinutes.textContent = '0' + timer.minutes;
+        }
+        if (timer.seconds < 10) {
+          timerSeconds.textContent = '0' + timer.seconds;
+        }
+      } else {
+        clearInterval(updateClockInterval);
+        timerHour.textContent = '00';
+        timerMinutes.textContent = '00';
+        timerSeconds.textContent = '00';
+        console.log('else', timer.timeRemaining);
       }
-      if (timer.hours < 10) {
-        timerHour.textContent = '0' + timer.hours;
-      }
-      if (timer.minutes < 10) {
-        timerMinutes.textContent = '0' + timer.minutes;
-      }
-      if (timer.seconds < 10) {
-        timerSeconds.textContent = '0' + timer.seconds;
-      }
-      // console.log(timer.timeRemaining);
     }
-    updateClock();
   }
 
-  // countTimer('15 december 2020');
-  // setInterval(countTimer, 1, '14 december 2020 19:04:00');
-  // countTimer('14 december 2020 19:15:00');
-
+  countTimer('15 december 2020 22:00:00');
 });
