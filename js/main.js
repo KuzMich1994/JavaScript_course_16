@@ -1,5 +1,6 @@
 'use strict';
 window.addEventListener('DOMContentLoaded', () => {
+  console.log(document.documentElement.clientWidth);
   //Таймер
   const countTimer = deadLine => {
     const timerHour = document.querySelector('#timer-hours'),
@@ -27,7 +28,6 @@ window.addEventListener('DOMContentLoaded', () => {
         timerHour.textContent = timer.hours;
         timerMinutes.textContent = timer.minutes;
         timerSeconds.textContent = timer.seconds;
-        console.log('if', timer.timeRemaining);
         if (timer.hours < 10) {
           timerHour.textContent = '0' + timer.hours;
         }
@@ -42,10 +42,74 @@ window.addEventListener('DOMContentLoaded', () => {
         timerHour.textContent = '00';
         timerMinutes.textContent = '00';
         timerSeconds.textContent = '00';
-        console.log('else', timer.timeRemaining);
       }
     }
   };
 
   countTimer('15 december 2020 22:00:00');
+
+  //Меню
+  const toggleMenu = () => {
+    const menuBtn = document.querySelector('.menu'),
+      menu = document.querySelector('menu'),
+      menuItems = document.querySelectorAll('ul>li'),
+      closeBtn = document.querySelector('.close-btn');
+
+    const handlerMenu = () => {
+      menu.classList.toggle('active-menu');
+    };
+
+    menuBtn.addEventListener('click', () => {
+      handlerMenu();
+    });
+    closeBtn.addEventListener('click', () => {
+      handlerMenu();
+    });
+    menuItems.forEach(elem => {
+      elem.addEventListener('click', () => {
+        handlerMenu();
+      });
+    });
+  };
+
+  toggleMenu();
+
+  //Модальное окно
+  const togglePopup = () => {
+    const popup = document.querySelector('.popup'),
+      popupBtn = document.querySelectorAll('.popup-btn'),
+      popupClose = document.querySelector('.popup-close'),
+      popupContent = document.querySelector('.popup-content');
+
+    popupBtn.forEach(elem => {
+      elem.addEventListener('click', () => {
+        popup.style.display = 'block';
+      });
+    });
+
+    popupClose.addEventListener('click', () => {
+      popup.style.display = 'none';
+    });
+
+    if (document.documentElement.clientWidth > 768) {
+      popupContent.style.transform = 'translateY(100%)';
+      popupContent.style.opacity = '0';
+      popupContent.style.transition = 'all 1s';
+      const animatePopup = () => {
+        requestAnimationFrame(animatePopup);
+        if (popup.style.display === 'block') {
+          popupContent.style.transform = 'translateY(0)';
+          popupContent.style.opacity = '1';
+        }
+        if (popup.style.display === 'none') {
+          popupContent.style.transform = 'translateY(100%)';
+          popupContent.style.opacity = '0';
+        }
+      };
+      animatePopup();
+    }
+  };
+
+  togglePopup();
+
 });
