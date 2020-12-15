@@ -46,7 +46,7 @@ window.addEventListener('DOMContentLoaded', () => {
     }
   };
 
-  countTimer('15 december 2020 22:00:00');
+  countTimer('31 december 2020 23:59:59');
 
   //Меню
   const toggleMenu = () => {
