@@ -1,10 +1,12 @@
+'use strict';
 window.addEventListener('DOMContentLoaded', () => {
-  function countTimer(deadLine) {
+  //Таймер
+  const countTimer = deadLine => {
     const timerHour = document.querySelector('#timer-hours'),
       timerMinutes = document.querySelector('#timer-minutes'),
       timerSeconds = document.querySelector('#timer-seconds');
 
-    function getTimeRemaining() {
+    const getTimeRemaining = () => {
       const dateStop = new Date(deadLine).getTime(),
         dateNow = new Date().getTime(),
         timeRemaining = (dateStop - dateNow) / 1000,
@@ -17,7 +19,7 @@ window.addEventListener('DOMContentLoaded', () => {
         minutes,
         seconds
       };
-    }
+    };
     const updateClockInterval = setInterval(updateClock, 1);
     function updateClock() {
       const timer = getTimeRemaining();
@@ -43,7 +45,7 @@ window.addEventListener('DOMContentLoaded', () => {
         console.log('else', timer.timeRemaining);
       }
     }
-  }
+  };
 
   countTimer('15 december 2020 22:00:00');
 });
