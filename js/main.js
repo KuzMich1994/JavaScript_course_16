@@ -27,7 +27,6 @@ window.addEventListener('DOMContentLoaded', () => {
         timerHour.textContent = timer.hours;
         timerMinutes.textContent = timer.minutes;
         timerSeconds.textContent = timer.seconds;
-        console.log('if', timer.timeRemaining);
         if (timer.hours < 10) {
           timerHour.textContent = '0' + timer.hours;
         }
@@ -42,7 +41,6 @@ window.addEventListener('DOMContentLoaded', () => {
         timerHour.textContent = '00';
         timerMinutes.textContent = '00';
         timerSeconds.textContent = '00';
-        console.log('else', timer.timeRemaining);
       }
     }
   };
