@@ -84,10 +84,14 @@ window.addEventListener('DOMContentLoaded', () => {
       popup.style.display = 'none';
     });
 
-    if (window.innerWidth > 768) {
+    const addStyle = () => {
       popupContent.style.transform = 'translateY(100%)';
       popupContent.style.opacity = '0';
       popupContent.style.transition = 'all 1s';
+    };
+
+    if (window.innerWidth > 768) {
+      addStyle();
       const animatePopup = () => {
         requestAnimationFrame(animatePopup);
         if (popup.style.display === 'block') {
@@ -102,9 +106,7 @@ window.addEventListener('DOMContentLoaded', () => {
       animatePopup();
       window.addEventListener('resize', () => {
         if (window.innerWidth > 768) {
-          popupContent.style.transform = 'translateY(100%)';
-          popupContent.style.opacity = '0';
-          popupContent.style.transition = 'all 1s';
+          addStyle();
         } else {
           popupContent.style.transform = '';
           popupContent.style.opacity = '';
