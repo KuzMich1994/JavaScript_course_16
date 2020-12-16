@@ -100,6 +100,17 @@ window.addEventListener('DOMContentLoaded', () => {
         }
       };
       animatePopup();
+      window.addEventListener('resize', () => {
+        if (window.innerWidth > 768) {
+          popupContent.style.transform = 'translateY(100%)';
+          popupContent.style.opacity = '0';
+          popupContent.style.transition = 'all 1s';
+        } else {
+          popupContent.style.transform = '';
+          popupContent.style.opacity = '';
+          popupContent.style.transition = '';
+        }
+      });
     }
   };
 
