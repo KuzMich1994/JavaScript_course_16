@@ -21,23 +21,16 @@ window.addEventListener('DOMContentLoaded', () => {
         seconds
       };
     };
-    const updateClockInterval = setInterval(updateClock, 1);
+    const updateClockInterval = setInterval(updateClock, 1),
+      timeEdit = timeElem => ((timeElem < 10) ? '0' + timeElem : timeElem);
     function updateClock() {
       const timer = getTimeRemaining();
-      if (timer.timeRemaining >= 0) {
-        timerHour.textContent = timer.hours;
-        timerMinutes.textContent = timer.minutes;
-        timerSeconds.textContent = timer.seconds;
-        if (timer.hours < 10) {
-          timerHour.textContent = '0' + timer.hours;
-        }
-        if (timer.minutes < 10) {
-          timerMinutes.textContent = '0' + timer.minutes;
-        }
-        if (timer.seconds < 10) {
-          timerSeconds.textContent = '0' + timer.seconds;
-        }
-      } else {
+
+      timerHour.textContent = timeEdit(timer.hours);
+      timerMinutes.textContent = timeEdit(timer.minutes);
+      timerSeconds.textContent = timeEdit(timer.seconds);
+
+      if (timer.timeRemaining <= 0) {
         clearInterval(updateClockInterval);
         timerHour.textContent = '00';
         timerMinutes.textContent = '00';
