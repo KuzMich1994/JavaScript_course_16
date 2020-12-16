@@ -84,7 +84,7 @@ window.addEventListener('DOMContentLoaded', () => {
       popup.style.display = 'none';
     });
 
-    if (document.documentElement.clientWidth > 768) {
+    if (window.innerWidth > 768) {
       popupContent.style.transform = 'translateY(100%)';
       popupContent.style.opacity = '0';
       popupContent.style.transition = 'all 1s';
