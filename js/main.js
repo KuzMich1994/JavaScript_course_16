@@ -45,7 +45,7 @@ window.addEventListener('DOMContentLoaded', () => {
   const toggleMenu = () => {
     const menuBtn = document.querySelector('.menu'),
       menu = document.querySelector('menu'),
-      menuItems = document.querySelectorAll('ul>li'),
+      menuItems = document.querySelectorAll('ul>li>a'),
       closeBtn = document.querySelector('.close-btn');
 
     const handlerMenu = () => {
