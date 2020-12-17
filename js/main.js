@@ -162,6 +162,17 @@ window.addEventListener('DOMContentLoaded', () => {
   //Слайдер
 
   const slider = () => {
+    const createDots = () => {
+      const slide = document.querySelectorAll('.portfolio-item'),
+        newDot = document.createElement('li'),
+        sliderDots = document.querySelector('.portfolio-dots');
+      newDot.classList.add('dot');
+
+      for (let i = 0; i < slide.length; i++) {
+        sliderDots.prepend(newDot.cloneNode());
+      }
+    };
+    createDots();
     const slide = document.querySelectorAll('.portfolio-item'),
       dot = document.querySelectorAll('.dot'),
       sliderContent = document.querySelector('.portfolio-content');
