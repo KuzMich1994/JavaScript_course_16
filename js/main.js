@@ -126,10 +126,19 @@ window.addEventListener('DOMContentLoaded', () => {
 
   // кнопка скролла
   const scroll = () => {
-    const scrollButton = document.querySelector('main>a');
-    scrollButton.addEventListener('click', event => {
-      event.preventDefault();
-      window.scrollTo({ top: 830, behavior: "smooth" });
+    const anchors = document.querySelectorAll('a[href*="#"]');
+
+    anchors.forEach(anchor => {
+      anchor.addEventListener('click', event => {
+        event.preventDefault();
+
+        const blockID = anchor.getAttribute('href').substr(1);
+
+        document.getElementById(blockID).scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      });
     });
   };
 
