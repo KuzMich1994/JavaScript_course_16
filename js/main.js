@@ -124,6 +124,17 @@ window.addEventListener('DOMContentLoaded', () => {
 
   togglePopup();
 
+  // кнопка скролла
+  const scroll = () => {
+    const scrollButton = document.querySelector('main>a');
+    scrollButton.addEventListener('click', event => {
+      event.preventDefault();
+      window.scrollTo({ top: 830, behavior: "smooth" });
+    });
+  };
+
+  scroll();
+
   //Табы
 
   const tabs = () => {
