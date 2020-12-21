@@ -291,4 +291,35 @@ window.addEventListener('DOMContentLoaded', () => {
 
   slider();
 
+  //Ховер для картинок
+
+  const hoverImg = () => {
+    const img = document.querySelectorAll('.command__photo');
+    img.forEach(item => {
+      const source = item.getAttribute('src');
+      console.log(source);
+      item.addEventListener('mouseover', e => {
+        e.target.src = e.target.dataset.img;
+      });
+      item.addEventListener('mouseout', e => {
+        e.target.src = source;
+      });
+    });
+  };
+
+  hoverImg();
+
+  //Валидация инпутов калькулятора
+
+  const validationInputs = () => {
+    const calcItems = document.querySelectorAll('.calc-item');
+    calcItems.forEach(item => {
+      item.addEventListener('input', () => {
+        item.value = item.value.replace(/\D+/, '');
+      });
+    });
+  };
+
+  validationInputs();
+
 });
