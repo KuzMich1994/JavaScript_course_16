@@ -20,10 +20,11 @@ window.addEventListener('DOMContentLoaded', () => {
         seconds
       };
     };
-    const updateClockInterval = setInterval(updateClock, 1),
-      timeEdit = timeElem => ((timeElem < 10) ? '0' + timeElem : timeElem);
-    function updateClock() {
-      const timer = getTimeRemaining();
+    const timeEdit = timeElem => ((timeElem < 10) ? '0' + timeElem : timeElem);
+
+    const updateClock = () => {
+      const timer = getTimeRemaining(),
+        updateClockInterval = setInterval(updateClock, 1);
 
       timerHour.textContent = timeEdit(timer.hours);
       timerMinutes.textContent = timeEdit(timer.minutes);
@@ -35,7 +36,8 @@ window.addEventListener('DOMContentLoaded', () => {
         timerMinutes.textContent = '00';
         timerSeconds.textContent = '00';
       }
-    }
+    };
+    setInterval(updateClock, 1);
   };
 
   countTimer('31 december 2020 23:59:59');
@@ -297,7 +299,6 @@ window.addEventListener('DOMContentLoaded', () => {
     const img = document.querySelectorAll('.command__photo');
     img.forEach(item => {
       const source = item.getAttribute('src');
-      console.log(source);
       item.addEventListener('mouseover', e => {
         e.target.src = e.target.dataset.img;
       });
@@ -357,7 +358,7 @@ window.addEventListener('DOMContentLoaded', () => {
         total = price * typeValue * squareValue * countValue * dayValue;
       }
 
-      totalValue.textContent = total;
+      totalValue.textContent = Math.floor(total);
     };
 
     calcBlock.addEventListener('change', e => {
