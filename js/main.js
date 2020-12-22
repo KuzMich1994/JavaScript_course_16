@@ -314,8 +314,12 @@ window.addEventListener('DOMContentLoaded', () => {
   const validationInputs = () => {
     const calcItems = document.querySelectorAll('.calc-item');
     calcItems.forEach(item => {
-      item.addEventListener('input', () => {
-        item.value = item.value.replace(/\D+/, '');
+      item.addEventListener('input', e => {
+        const currentTarget = e.currentTarget;
+        if (currentTarget.matches('.calc-square') || currentTarget.matches('.calc-count') ||
+        currentTarget.matches('.calc-day')) {
+          currentTarget.value = currentTarget.value.replace(/\D+/, '');
+        }
       });
     });
   };
