@@ -376,7 +376,7 @@ window.addEventListener('DOMContentLoaded', () => {
           step += 1000;
           totalValue.textContent = step;
         } else if (step > total) {
-          clearInterval(interval);
+          cancelAnimationFrame(interval);
           totalValue.textContent = Math.floor(total);
         }
       };
