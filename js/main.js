@@ -379,6 +379,10 @@ window.addEventListener('DOMContentLoaded', () => {
           cancelAnimationFrame(interval);
           totalValue.textContent = Math.floor(total);
         }
+
+        calcType.addEventListener('input', () => {
+          totalValue.textContent = 0;
+        });
       };
       interval = requestAnimationFrame(animateSumm);
 
