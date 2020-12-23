@@ -22,9 +22,11 @@ window.addEventListener('DOMContentLoaded', () => {
     };
     const timeEdit = timeElem => ((timeElem < 10) ? '0' + timeElem : timeElem);
 
+    let updateClockInterval;
+
     const updateClock = () => {
-      const timer = getTimeRemaining(),
-        updateClockInterval = setInterval(updateClock, 1);
+      const timer = getTimeRemaining();
+      updateClockInterval = requestAnimationFrame(updateClock, 1000);
 
       timerHour.textContent = timeEdit(timer.hours);
       timerMinutes.textContent = timeEdit(timer.minutes);
@@ -37,7 +39,7 @@ window.addEventListener('DOMContentLoaded', () => {
         timerSeconds.textContent = '00';
       }
     };
-    setInterval(updateClock, 1);
+    updateClockInterval = requestAnimationFrame(updateClock);
   };
 
   countTimer('31 december 2020 23:59:59');
@@ -193,7 +195,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
   tabs();
 
-  //Добавляем кнопки на слайдер
+  // Добавляем кнопки на слайдер
 
   const createDots = () => {
     const slide = document.querySelectorAll('.portfolio-item'),
@@ -341,12 +343,13 @@ window.addEventListener('DOMContentLoaded', () => {
       calcDay = document.querySelector('.calc-day'),
       totalValue = document.getElementById('total');
 
+    let interval;
+
     const countSumm = () => {
       let total = 0,
         countValue = 1,
         dayValue = 1,
-        count = 0,
-        interval;
+        step = 0;
       const typeValue = calcType.options[calcType.selectedIndex].value,
         squareValue = +calcSquare.value;
 
@@ -365,23 +368,26 @@ window.addEventListener('DOMContentLoaded', () => {
       }
 
       const animateSumm = () => {
-        interval = requestAnimationFrame(animateSumm);
-        if (total < 6000) {
-          count += 20;
-        } else if (total < 15000) {
-          count += 150;
-        } else {
-          count += 400;
-        }
-
-        if (count < total) {
-          totalValue.textContent = count;
-        } else {
+        interval = requestAnimationFrame(animateSumm, 50);
+        if (step < total && total < 5000) {
+          step += 50;
+          totalValue.textContent = step;
+        } else if (step < total && total > 5000) {
+          step += 1000;
+          totalValue.textContent = step;
+        } else if (step > total) {
+          clearInterval(interval);
           totalValue.textContent = Math.floor(total);
-          cancelAnimationFrame(interval);
         }
       };
       interval = requestAnimationFrame(animateSumm);
+
+      calcBlock.addEventListener('change', event => {
+        const target = event.target;
+        if (target.matches('select') || target.matches('input')) {
+          total = 0;
+        }
+      });
     };
 
     calcBlock.addEventListener('change', e => {
