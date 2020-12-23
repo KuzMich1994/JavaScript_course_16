@@ -193,20 +193,24 @@ window.addEventListener('DOMContentLoaded', () => {
 
   tabs();
 
+  //Добавляем кнопки на слайдер
+
+  const createDots = () => {
+    const slide = document.querySelectorAll('.portfolio-item'),
+      newDot = document.createElement('li'),
+      sliderDots = document.querySelector('.portfolio-dots');
+    newDot.classList.add('dot');
+
+    for (let i = 0; i < slide.length; i++) {
+      sliderDots.prepend(newDot.cloneNode());
+    }
+  };
+
+  createDots();
+
   //Слайдер
 
   const slider = () => {
-    const createDots = () => {
-      const slide = document.querySelectorAll('.portfolio-item'),
-        newDot = document.createElement('li'),
-        sliderDots = document.querySelector('.portfolio-dots');
-      newDot.classList.add('dot');
-
-      for (let i = 0; i < slide.length; i++) {
-        sliderDots.prepend(newDot.cloneNode());
-      }
-    };
-    createDots();
     const slide = document.querySelectorAll('.portfolio-item'),
       dot = document.querySelectorAll('.dot'),
       sliderContent = document.querySelector('.portfolio-content');
@@ -234,7 +238,7 @@ window.addEventListener('DOMContentLoaded', () => {
       nextSlide(dot, currentSlide, 'dot-active');
     };
 
-    const startSlide = (time = 3000) => {
+    const startSlide = (time = 1500) => {
       interval = setInterval(autoPlaySlide, time);
     };
 
@@ -284,7 +288,7 @@ window.addEventListener('DOMContentLoaded', () => {
     });
     sliderContent.addEventListener('mouseout', event => {
       if (event.target.matches('.portfolio-btn') || event.target.matches('.dot')) {
-        startSlide(1500);
+        startSlide();
       }
     });
 
@@ -340,7 +344,9 @@ window.addEventListener('DOMContentLoaded', () => {
     const countSumm = () => {
       let total = 0,
         countValue = 1,
-        dayValue = 1;
+        dayValue = 1,
+        count = 0,
+        interval;
       const typeValue = calcType.options[calcType.selectedIndex].value,
         squareValue = +calcSquare.value;
 
@@ -358,7 +364,24 @@ window.addEventListener('DOMContentLoaded', () => {
         total = price * typeValue * squareValue * countValue * dayValue;
       }
 
-      totalValue.textContent = Math.floor(total);
+      const animateSumm = () => {
+        interval = requestAnimationFrame(animateSumm);
+        if (total < 6000) {
+          count += 20;
+        } else if (total < 15000) {
+          count += 150;
+        } else {
+          count += 400;
+        }
+
+        if (count < total) {
+          totalValue.textContent = count;
+        } else {
+          totalValue.textContent = Math.floor(total);
+          cancelAnimationFrame(interval);
+        }
+      };
+      interval = requestAnimationFrame(animateSumm);
     };
 
     calcBlock.addEventListener('change', e => {
