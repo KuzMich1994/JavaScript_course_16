@@ -405,4 +405,122 @@ window.addEventListener('DOMContentLoaded', () => {
 
   calc(100);
 
+  //send-ajax-form
+
+  const sendForm = () => {
+    const errorMessage = 'Что-то пошло не так...';
+    const loadMessage = 'Загрузка...';
+    const successMessage = 'Спасибо! Мы скоро с вами свяжемся!';
+    const form = document.getElementById('form1');
+    const form2 = document.getElementById('form2');
+    const form3 = document.getElementById('form3');
+    const statusMessage = document.createElement('div');
+    const allInputs = document.querySelectorAll('input[id]');
+    statusMessage.style.cssText = `font-size: 2rem; color: #ffffff;`;
+
+    const postData = (body, outputData, errorData) => {
+      const reqest = new XMLHttpRequest();
+
+      reqest.addEventListener('readystatechange', () => {
+        if (reqest.readyState !== 4) {
+          return;
+        }
+
+        if (reqest.status === 200) {
+          outputData();
+        } else {
+          errorData(reqest.status);
+        }
+        allInputs.forEach(item => {
+          item.value = '';
+        });
+      });
+
+      reqest.open('POST', './server.php');
+      reqest.setRequestHeader('Content-Type', 'application/json');
+      reqest.send(JSON.stringify(body));
+    };
+
+    allInputs.forEach(item => {
+      item.addEventListener('input', e => {
+        const currentTarget = e.currentTarget;
+        if (currentTarget.matches('.form-phone')) {
+          currentTarget.value = currentTarget.value.replace(/[^+\-()\d]/, '');
+        }
+        if (currentTarget.matches('[placeholder="Ваше имя"]')) {
+          currentTarget.value = currentTarget.value.replace(/[a-z0-9().,/-_=+!@#$%^&*№"'|]/, '');
+        }
+        if (currentTarget.matches('.mess')) {
+          currentTarget.setAttribute('maxlength', '200');
+          currentTarget.value = currentTarget.value.replace(/[a-z()@#$%^&*"№_=`/]/, '');
+        }
+      });
+    });
+
+
+    document.addEventListener('submit', e => {
+      e.preventDefault();
+      const target = e.target;
+
+
+      if (target.matches('#form1')) {
+        form.append(statusMessage);
+        statusMessage.textContent = loadMessage;
+        const formData = new FormData(form);
+        const body = {};
+        formData.forEach((val, key) => {
+          body[key] = val;
+        });
+
+        postData(body,
+          () => {
+            statusMessage.textContent = successMessage;
+          },
+          error => {
+            statusMessage.textContent = errorMessage;
+            console.error(error);
+          });
+      }
+      if (target.matches('#form2')) {
+        form2.append(statusMessage);
+        statusMessage.textContent = loadMessage;
+        statusMessage.style.cssText = 'color: #ffffff;';
+        const formData = new FormData(form2);
+        const body = {};
+        formData.forEach((val, key) => {
+          body[key] = val;
+        });
+
+        postData(body,
+          () => {
+            statusMessage.textContent = successMessage;
+          },
+          error => {
+            statusMessage.textContent = errorMessage;
+            console.error(error);
+          });
+      }
+      if (target.matches('#form3')) {
+        form3.append(statusMessage);
+        statusMessage.textContent = loadMessage;
+        const formData = new FormData(form3);
+        const body = {};
+        formData.forEach((val, key) => {
+          body[key] = val;
+        });
+
+        postData(body,
+          () => {
+            statusMessage.textContent = successMessage;
+          },
+          error => {
+            statusMessage.textContent = errorMessage;
+            console.error(error);
+          });
+      }
+    });
+  };
+
+  sendForm();
+
 });
