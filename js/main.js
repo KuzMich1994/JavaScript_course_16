@@ -445,14 +445,20 @@ window.addEventListener('DOMContentLoaded', () => {
       item.addEventListener('input', e => {
         const currentTarget = e.currentTarget;
         if (currentTarget.matches('.form-phone')) {
+          currentTarget.setAttribute('pattern', '[0-9\\+\\-\\s()]{11,18}');
           currentTarget.value = currentTarget.value.replace(/[^+\-()\d]/, '');
         }
         if (currentTarget.matches('[placeholder="Ваше имя"]')) {
+          currentTarget.setAttribute('pattern', '[а-яА-ЯЁё\\-]{2,}');
           currentTarget.value = currentTarget.value.replace(/[a-z0-9().,/-_=+!@#$%^&*№"'|]/, '');
         }
         if (currentTarget.matches('.mess')) {
-          currentTarget.setAttribute('maxlength', '200');
+          currentTarget.setAttribute('pattern', '[а-яА-яЁё0-9s,.-_!":;]{0,200}');
           currentTarget.value = currentTarget.value.replace(/[a-z()@#$%^&*"№_=`/]/, '');
+        }
+        if (currentTarget.matches('[type="email"]')) {
+          currentTarget.setAttribute('pattern', '^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$');
+          currentTarget.value = currentTarget.value.replace(/[а-яА-ЯЁё]/, '');
         }
       });
     });
