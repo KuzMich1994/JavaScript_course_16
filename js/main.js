@@ -499,11 +499,9 @@ window.addEventListener('DOMContentLoaded', () => {
           body[key] = val;
         });
 
-        postData(body,
-          () => {
-            statusMessage.textContent = successMessage;
-          },
-          error => {
+        postData(body)
+          .then(showMessage)
+          .catch(error => {
             statusMessage.textContent = errorMessage;
             console.error(error);
           });
@@ -517,11 +515,9 @@ window.addEventListener('DOMContentLoaded', () => {
           body[key] = val;
         });
 
-        postData(body,
-          () => {
-            statusMessage.textContent = successMessage;
-          },
-          error => {
+        postData(body)
+          .then(showMessage)
+          .catch(error => {
             statusMessage.textContent = errorMessage;
             console.error(error);
           });
