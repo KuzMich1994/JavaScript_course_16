@@ -446,22 +446,6 @@ window.addEventListener('DOMContentLoaded', () => {
         selector.style.boxShadow = '0 0 5px 5px red';
       }
     };
-    // const showBoxShadowPhone = selector => {
-    //   const regExpName = /[0-9\\+\\-\\s()]{11,18}/.test(selector.value);
-    //   if (regExpName) {
-    //     selector.style.boxShadow = '0 0 5px 5px green';
-    //   } else {
-    //     selector.style.boxShadow = '0 0 5px 5px red';
-    //   }
-    // };
-    // const showBoxShadowEmail = selector => {
-    //   const regExpName = /^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/.test(selector.value);
-    //   if (regExpName) {
-    //     selector.style.boxShadow = '0 0 5px 5px green';
-    //   } else {
-    //     selector.style.boxShadow = '0 0 5px 5px red';
-    //   }
-    // };
 
     const validateInputs = (selector, regPattern, regReplace) => {
       selector.setAttribute('pattern', regPattern);
