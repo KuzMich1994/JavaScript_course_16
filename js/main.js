@@ -438,30 +438,30 @@ window.addEventListener('DOMContentLoaded', () => {
       reqest.send(JSON.stringify(body));
     });
 
-    const showBoxShadowName = selector => {
-      const regExpName = /[а-яА-ЯЁё\\-]{2,}/.test(selector.value);
-      if (regExpName) {
+    const showBoxShadow = (selector, reg) => {
+      const regExp = reg.test(selector.value);
+      if (regExp) {
         selector.style.boxShadow = '0 0 5px 5px green';
       } else {
         selector.style.boxShadow = '0 0 5px 5px red';
       }
     };
-    const showBoxShadowPhone = selector => {
-      const regExpName = /[0-9\\+\\-\\s()]{11,18}/.test(selector.value);
-      if (regExpName) {
-        selector.style.boxShadow = '0 0 5px 5px green';
-      } else {
-        selector.style.boxShadow = '0 0 5px 5px red';
-      }
-    };
-    const showBoxShadowEmail = selector => {
-      const regExpName = /^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/.test(selector.value);
-      if (regExpName) {
-        selector.style.boxShadow = '0 0 5px 5px green';
-      } else {
-        selector.style.boxShadow = '0 0 5px 5px red';
-      }
-    };
+    // const showBoxShadowPhone = selector => {
+    //   const regExpName = /[0-9\\+\\-\\s()]{11,18}/.test(selector.value);
+    //   if (regExpName) {
+    //     selector.style.boxShadow = '0 0 5px 5px green';
+    //   } else {
+    //     selector.style.boxShadow = '0 0 5px 5px red';
+    //   }
+    // };
+    // const showBoxShadowEmail = selector => {
+    //   const regExpName = /^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/.test(selector.value);
+    //   if (regExpName) {
+    //     selector.style.boxShadow = '0 0 5px 5px green';
+    //   } else {
+    //     selector.style.boxShadow = '0 0 5px 5px red';
+    //   }
+    // };
 
     const validateInputs = (selector, regPattern, regReplace) => {
       selector.setAttribute('pattern', regPattern);
@@ -473,18 +473,18 @@ window.addEventListener('DOMContentLoaded', () => {
         const currentTarget = e.currentTarget;
         if (currentTarget.matches('.form-phone')) {
           validateInputs(currentTarget, '[0-9\\+\\-\\s()]{11,18}', /[^+\-()\d]/);
-          showBoxShadowPhone(currentTarget);
+          showBoxShadow(currentTarget, /[0-9\\+\\-\\s()]{11,18}/);
         }
         if (currentTarget.matches('[placeholder="Ваше имя"]')) {
           validateInputs(currentTarget, '[а-яА-ЯЁё\\-]{2,}', /[a-z0-9().,/-_=+!@#$%^&*№"'|]/);
-          showBoxShadowName(currentTarget);
+          showBoxShadow(currentTarget, /[а-яА-ЯЁё\\-]{2,}/);
         }
         if (currentTarget.matches('.mess')) {
           validateInputs(currentTarget, '[а-яА-яЁё0-9s,.-_!":;]{0,200}', /[a-z()@#$%^&*"№_=`/]/);
         }
         if (currentTarget.matches('[type="email"]')) {
           validateInputs(currentTarget, '^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$', /[а-яА-ЯЁё]/);
-          showBoxShadowEmail(currentTarget);
+          showBoxShadow(currentTarget, /^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/);
         }
       });
     });
