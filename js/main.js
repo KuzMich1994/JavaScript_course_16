@@ -418,7 +418,7 @@ window.addEventListener('DOMContentLoaded', () => {
     const allInputs = document.querySelectorAll('input[id]');
     statusMessage.style.cssText = `font-size: 2rem; color: #ffffff;`;
 
-    const postData = (body, outputData, errorData) => {
+    const postData = body => new Promise((resolve, reject) => {
       const reqest = new XMLHttpRequest();
 
       reqest.addEventListener('readystatechange', () => {
@@ -427,9 +427,9 @@ window.addEventListener('DOMContentLoaded', () => {
         }
 
         if (reqest.status === 200) {
-          outputData();
+          resolve();
         } else {
-          errorData(reqest.status);
+          reject(reqest.statusText);
         }
         allInputs.forEach(item => {
           item.value = '';
@@ -439,6 +439,10 @@ window.addEventListener('DOMContentLoaded', () => {
       reqest.open('POST', './server.php');
       reqest.setRequestHeader('Content-Type', 'application/json');
       reqest.send(JSON.stringify(body));
+    });
+
+    const showMessage = () => {
+      statusMessage.textContent = successMessage;
     };
 
     allInputs.forEach(item => {
@@ -478,11 +482,9 @@ window.addEventListener('DOMContentLoaded', () => {
           body[key] = val;
         });
 
-        postData(body,
-          () => {
-            statusMessage.textContent = successMessage;
-          },
-          error => {
+        postData(body)
+          .then(showMessage)
+          .catch(error => {
             statusMessage.textContent = errorMessage;
             console.error(error);
           });
