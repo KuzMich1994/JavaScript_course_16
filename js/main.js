@@ -407,13 +407,13 @@ window.addEventListener('DOMContentLoaded', () => {
 
   //send-ajax-form
 
-  const sendForm = () => {
+  const sendForm = (form, form2, form3) => {
     const errorMessage = 'Что-то пошло не так...';
     const loadMessage = 'Загрузка...';
     const successMessage = 'Спасибо! Мы скоро с вами свяжемся!';
-    const form = document.getElementById('form1');
-    const form2 = document.getElementById('form2');
-    const form3 = document.getElementById('form3');
+    form = document.getElementById(form);
+    form2 = document.getElementById(form2);
+    form3 = document.getElementById(form3);
     const statusMessage = document.createElement('div');
     const allInputs = document.querySelectorAll('input[id]');
     statusMessage.style.cssText = `font-size: 2rem; color: #ffffff;`;
@@ -431,9 +431,6 @@ window.addEventListener('DOMContentLoaded', () => {
         } else {
           reject(reqest.statusText);
         }
-        allInputs.forEach(item => {
-          item.value = '';
-        });
       });
 
       reqest.open('POST', './server.php');
@@ -441,31 +438,71 @@ window.addEventListener('DOMContentLoaded', () => {
       reqest.send(JSON.stringify(body));
     });
 
-    const showMessage = () => {
-      statusMessage.textContent = successMessage;
+    const showBoxShadowName = selector => {
+      const regExpName = /[а-яА-ЯЁё\\-]{2,}/.test(selector.value);
+      if (regExpName) {
+        selector.style.boxShadow = '0 0 5px 5px green';
+      } else {
+        selector.style.boxShadow = '0 0 5px 5px red';
+      }
+    };
+    const showBoxShadowPhone = selector => {
+      const regExpName = /[0-9\\+\\-\\s()]{11,18}/.test(selector.value);
+      if (regExpName) {
+        selector.style.boxShadow = '0 0 5px 5px green';
+      } else {
+        selector.style.boxShadow = '0 0 5px 5px red';
+      }
+    };
+    const showBoxShadowEmail = selector => {
+      const regExpName = /^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/.test(selector.value);
+      if (regExpName) {
+        selector.style.boxShadow = '0 0 5px 5px green';
+      } else {
+        selector.style.boxShadow = '0 0 5px 5px red';
+      }
+    };
+
+    const validateInputs = (selector, regPattern, regReplace) => {
+      selector.setAttribute('pattern', regPattern);
+      selector.value = selector.value.replace(regReplace, '');
     };
 
     allInputs.forEach(item => {
       item.addEventListener('input', e => {
         const currentTarget = e.currentTarget;
         if (currentTarget.matches('.form-phone')) {
-          currentTarget.setAttribute('pattern', '[0-9\\+\\-\\s()]{11,18}');
-          currentTarget.value = currentTarget.value.replace(/[^+\-()\d]/, '');
+          validateInputs(currentTarget, '[0-9\\+\\-\\s()]{11,18}', /[^+\-()\d]/);
+          showBoxShadowPhone(currentTarget);
         }
         if (currentTarget.matches('[placeholder="Ваше имя"]')) {
-          currentTarget.setAttribute('pattern', '[а-яА-ЯЁё\\-]{2,}');
-          currentTarget.value = currentTarget.value.replace(/[a-z0-9().,/-_=+!@#$%^&*№"'|]/, '');
+          validateInputs(currentTarget, '[а-яА-ЯЁё\\-]{2,}', /[a-z0-9().,/-_=+!@#$%^&*№"'|]/);
+          showBoxShadowName(currentTarget);
         }
         if (currentTarget.matches('.mess')) {
-          currentTarget.setAttribute('pattern', '[а-яА-яЁё0-9s,.-_!":;]{0,200}');
-          currentTarget.value = currentTarget.value.replace(/[a-z()@#$%^&*"№_=`/]/, '');
+          validateInputs(currentTarget, '[а-яА-яЁё0-9s,.-_!":;]{0,200}', /[a-z()@#$%^&*"№_=`/]/);
         }
         if (currentTarget.matches('[type="email"]')) {
-          currentTarget.setAttribute('pattern', '^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$');
-          currentTarget.value = currentTarget.value.replace(/[а-яА-ЯЁё]/, '');
+          validateInputs(currentTarget, '^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$', /[а-яА-ЯЁё]/);
+          showBoxShadowEmail(currentTarget);
         }
       });
     });
+
+    const showMessage = () => {
+      statusMessage.textContent = successMessage;
+    };
+
+    const showLoadMessage = () => {
+      statusMessage.textContent = loadMessage;
+    };
+
+    const body = {};
+    const addBody = data => {
+      data.forEach((val, key) => {
+        body[key] = val;
+      });
+    };
 
 
     document.addEventListener('submit', e => {
@@ -475,57 +512,40 @@ window.addEventListener('DOMContentLoaded', () => {
 
       if (target.matches('#form1')) {
         form.append(statusMessage);
-        statusMessage.textContent = loadMessage;
+        showLoadMessage();
         const formData = new FormData(form);
-        const body = {};
-        formData.forEach((val, key) => {
-          body[key] = val;
-        });
-
-        postData(body)
-          .then(showMessage)
-          .catch(error => {
-            statusMessage.textContent = errorMessage;
-            console.error(error);
-          });
+        addBody(formData);
       }
       if (target.matches('#form2')) {
         form2.append(statusMessage);
-        statusMessage.textContent = loadMessage;
+        showLoadMessage();
         statusMessage.style.cssText = 'color: #ffffff;';
         const formData = new FormData(form2);
-        const body = {};
-        formData.forEach((val, key) => {
-          body[key] = val;
-        });
-
-        postData(body)
-          .then(showMessage)
-          .catch(error => {
-            statusMessage.textContent = errorMessage;
-            console.error(error);
-          });
+        addBody(formData);
       }
       if (target.matches('#form3')) {
         form3.append(statusMessage);
-        statusMessage.textContent = loadMessage;
+        showLoadMessage();
         const formData = new FormData(form3);
-        const body = {};
-        formData.forEach((val, key) => {
-          body[key] = val;
-        });
-
-        postData(body)
-          .then(showMessage)
-          .catch(error => {
-            statusMessage.textContent = errorMessage;
-            console.error(error);
-          });
+        addBody(formData);
       }
+      postData(body)
+        .then(showMessage)
+        .catch(error => {
+          statusMessage.textContent = errorMessage;
+          console.error(error);
+        })
+        .then(() => {
+          allInputs.forEach(item => {
+            item.value = '';
+            item.style.boxShadow = 'none';
+          });
+        });
     });
   };
   // к сожалению это исправление на promise улетело и в ветку 26 урока(((
 
-  sendForm();
+  sendForm('form1', 'form2', 'form3');
+
 
 });
