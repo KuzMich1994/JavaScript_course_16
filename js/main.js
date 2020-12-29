@@ -524,6 +524,7 @@ window.addEventListener('DOMContentLoaded', () => {
       }
     });
   };
+  // к сожалению это исправление на promise улетело и в ветку 26 урока(((
 
   sendForm();
 
