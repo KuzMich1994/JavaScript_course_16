@@ -418,24 +418,13 @@ window.addEventListener('DOMContentLoaded', () => {
     const allInputs = document.querySelectorAll('input[id]');
     statusMessage.style.cssText = `font-size: 2rem; color: #ffffff;`;
 
-    const postData = body => new Promise((resolve, reject) => {
-      const reqest = new XMLHttpRequest();
-
-      reqest.addEventListener('readystatechange', () => {
-        if (reqest.readyState !== 4) {
-          return;
-        }
-
-        if (reqest.status === 200) {
-          resolve();
-        } else {
-          reject(reqest.statusText);
-        }
-      });
-
-      reqest.open('POST', './server.php');
-      reqest.setRequestHeader('Content-Type', 'application/json');
-      reqest.send(JSON.stringify(body));
+    const postData = formData => fetch('./server.php', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: formData,
+      credentials: 'include'
     });
 
     const showBoxShadow = (selector, reg) => {
@@ -457,7 +446,7 @@ window.addEventListener('DOMContentLoaded', () => {
         const currentTarget = e.currentTarget;
         if (currentTarget.matches('.form-phone')) {
           validateInputs(currentTarget, '[0-9\\+\\-\\s()]{11,18}', /[^+\-()\d]/);
-          showBoxShadow(currentTarget, /[0-9\\+\\-\\s()]{11,18}/);
+          showBoxShadow(currentTarget, /[0-9\\+\-\s()]{11,18}/);
         }
         if (currentTarget.matches('[placeholder="Ваше имя"]')) {
           validateInputs(currentTarget, '[а-яА-ЯЁё\\-]{2,}', /[a-z0-9().,/-_=+!@#$%^&*№"'|]/);
@@ -473,21 +462,11 @@ window.addEventListener('DOMContentLoaded', () => {
       });
     });
 
-    const showMessage = () => {
-      statusMessage.textContent = successMessage;
-    };
-
     const showLoadMessage = () => {
       statusMessage.textContent = loadMessage;
     };
 
-    const body = {};
-    const addBody = data => {
-      data.forEach((val, key) => {
-        body[key] = val;
-      });
-    };
-
+    let formData;
 
     document.addEventListener('submit', e => {
       e.preventDefault();
@@ -497,24 +476,26 @@ window.addEventListener('DOMContentLoaded', () => {
       if (target.matches('#form1')) {
         form.append(statusMessage);
         showLoadMessage();
-        const formData = new FormData(form);
-        addBody(formData);
+        formData = new FormData(form);
       }
       if (target.matches('#form2')) {
         form2.append(statusMessage);
         showLoadMessage();
         statusMessage.style.cssText = 'color: #ffffff;';
-        const formData = new FormData(form2);
-        addBody(formData);
+        formData = new FormData(form2);
       }
       if (target.matches('#form3')) {
         form3.append(statusMessage);
         showLoadMessage();
-        const formData = new FormData(form3);
-        addBody(formData);
+        formData = new FormData(form3);
       }
-      postData(body)
-        .then(showMessage)
+      postData(formData)
+        .then(response => {
+          if (response.status !== 200) {
+            throw new Error('Status network not 200');
+          }
+          statusMessage.textContent = successMessage;
+        })
         .catch(error => {
           statusMessage.textContent = errorMessage;
           console.error(error);
@@ -527,7 +508,6 @@ window.addEventListener('DOMContentLoaded', () => {
         });
     });
   };
-  // к сожалению это исправление на promise улетело и в ветку 26 урока(((
 
   sendForm('form1', 'form2', 'form3');
 
