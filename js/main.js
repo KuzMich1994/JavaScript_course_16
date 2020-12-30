@@ -453,7 +453,7 @@ window.addEventListener('DOMContentLoaded', () => {
           showBoxShadow(currentTarget, /[а-яА-ЯЁё\\-]{2,}/);
         }
         if (currentTarget.matches('.mess')) {
-          validateInputs(currentTarget, '[а-яА-яЁё0-9s,.-_!":;]{0,200}', /[a-z()@#$%^&*"№_=`/]/);
+          validateInputs(currentTarget, '[а-яА-яЁё0-9\\s,.-_!":;]{0,200}', /[a-z()@#$%^&*"№_=`/]/);
         }
         if (currentTarget.matches('[type="email"]')) {
           validateInputs(currentTarget, '^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$', /[а-яА-ЯЁё]/);
@@ -505,6 +505,13 @@ window.addEventListener('DOMContentLoaded', () => {
             item.value = '';
             item.style.boxShadow = 'none';
           });
+          setTimeout(() => {
+            const popup = document.querySelector('.popup');
+            statusMessage.remove();
+            if (popup.style.display === 'block') {
+              popup.style.display = 'none';
+            }
+          }, 3000);
         });
     });
   };
