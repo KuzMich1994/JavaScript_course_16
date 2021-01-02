@@ -54,6 +54,9 @@ const calc = (price = 100) => {
       if (target.matches('select') || target.matches('input')) {
         total = 0;
       }
+      if (target.matches('[placeholder="Общая площадь"]') === '') {
+        totalValue.textContent = 0;
+      }
     });
   };
 

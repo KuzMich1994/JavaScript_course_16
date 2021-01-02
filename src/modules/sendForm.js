@@ -47,8 +47,8 @@ const sendForm = (form, form2, form3) => {
         validateInputs(currentTarget, '[а-яА-яЁё0-9\\s,.-_!":;]{0,200}', /[a-z()@#$%^&*"№_=`/]/);
       }
       if (currentTarget.matches('[type="email"]')) {
-        validateInputs(currentTarget, '^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$', /[а-яА-ЯЁё]/);
-        showBoxShadow(currentTarget, /^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/);
+        validateInputs(currentTarget, '^[a-zA-Z0-9]+[a-zA-Z0-9_%+-.]+@[a-z0-9.-]+\\.[a-z]{2,4}$', /[а-яА-ЯЁё]/);
+        showBoxShadow(currentTarget, /^[a-zA-Z0-9]+[a-zA-Z0-9_%+-.]+@[a-z0-9.-]+\.[a-z]{2,4}$/);
       }
     });
   });
